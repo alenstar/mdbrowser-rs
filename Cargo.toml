@@ -1,0 +1,27 @@
+[package]
+name = "mdbrowser"
+version = "0.1.0"
+authors = ["alen <to_alen@sina.com>"]
+#links = "cmark"
+#build = "build.rs"
+
+[build-dependencies]
+gcc = "*"
+cmake = "*"
+
+[dependencies]
+# gtk = { git = "https://github.com/gtk-rs/gtk.git" }
+curl = { git = "https://github.com/alexcrichton/curl-rust.git" }
+html5ever = "*"
+scraper = "*"
+regex = "*"
+#glib = "^0"
+#gdk = "^0"
+#gdk-pixbuf = "^0"
+#gtk = "^0"
+#cairo-rs = "^0"
+rusqlite = "*"
+time = "*"
+serde_json = "*"
+base64 ="*"
+webkit2gtk = { git = "https://github.com/gtk-rs/webkit2gtk-rs.git" }
