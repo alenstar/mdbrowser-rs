@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 #if 0
 #include "../build/src/config.h"
 #include "../cmark/extensions/core-extensions.h"
@@ -169,8 +169,9 @@ char *commonmark_parser(const char *buffer, size_t bytes) {
         return result; // Error
     }
     const char *ext[] = {"table", "strikethrough", "tagfilter", "autolink"};
+	// LOGD("ext length %d", sizeof(ext)/sizeof(*ext));
     int i = 0;
-    for (i = 0; i < sizeof(ext); i++) {
+    for (i = 0; i < sizeof(ext)/sizeof(*ext); i++) {
         cmark_syntax_extension *syntax_extension =
             cmark_find_syntax_extension(ext[i]);
         if (syntax_extension)
@@ -234,8 +235,9 @@ bool render_markdown_to_html(const std::string &in, std::string &out) {
 }
 #endif
 
-char *markdown_to_html(const char *markdown) {
-    return commonmark_parser(markdown, strlen(markdown));
+unsigned int markdown_to_html(const char *markdown, char** html) {
+    *html = commonmark_parser(markdown, strlen(markdown));
+	return strlen(*html);
 }
 
 void markdown_free(char *html) {
