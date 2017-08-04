@@ -237,10 +237,12 @@ bool render_markdown_to_html(const std::string &in, std::string &out) {
 
 unsigned int markdown_to_html(const char *markdown, char** html) {
     *html = commonmark_parser(markdown, strlen(markdown));
+	// LOGD("markdown_to_html: %p", html);
 	return strlen(*html);
 }
 
 void markdown_free(char *html) {
+	// LOGD("markdown_free: %p", html);
     cmark_mem *mem = cmark_get_default_mem_allocator();
     if (mem && html) {
         mem->free(html);
