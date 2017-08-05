@@ -18,4 +18,7 @@ export LIBRARY_PATH=./build:./:$LIBRARY_PATH
 export LD_LIBRARY_PATH=./:$LD_LIBRARY_PATH
 #构建release版
 cargo build --release
+#
+# run
+export LD_LIBRARY_PATH=./:$LD_LIBRARY_PATH && target/debug/mdbrowser
 ```

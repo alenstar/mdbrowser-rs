@@ -1,4 +1,5 @@
 use std::ops::Drop;
+use std::ops::Deref;
 
 #[link(name="cmark-wrapper")]
 extern "C" {
@@ -74,5 +75,11 @@ impl Drop for HtmlBody {
             },
             None => {}
         }
+    }
+}
+impl Deref for HtmlBody {
+    type Target = String ; // 目标类型
+    fn deref<'a>(&'a self) -> &'a String{
+        &self.body // 返回String类型的引用
     }
 }
