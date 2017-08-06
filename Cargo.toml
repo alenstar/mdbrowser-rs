@@ -15,5 +15,6 @@ regex = "*"
 time = "*"
 serde_json = "*"
 base64 ="*"
+glib = "*"
+gtk = "*"
 webkit2gtk = "0.1.0"
-#webkit2gtk = { git = "https://github.com/alenstar/webkit2gtk-rs.git" }
