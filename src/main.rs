@@ -1,33 +1,42 @@
 mod cmark;
 
-extern crate glib;
+//extern crate glib;
 extern crate gtk;
 extern crate webkit2gtk;
 
-
+#[cfg(feature="v2_4")]
 use glib::ToVariant;
-use gtk::{ContainerExt, Inhibit, WidgetExt, Window, WindowType};
-use webkit2gtk::{SettingsExt, UserContentManager, WebContext, WebContextExt, WebView, WebViewExt, WebViewExtManual};
+use gtk::{ContainerExt, Inhibit, WidgetExt, Window, WindowExt, WindowType};
+use webkit2gtk::{WebContext, WebView, WebViewExtManual};
+#[cfg(feature="v2_6")]
+use webkit2gtk::UserContentManager;
 
 fn main() {
     gtk::init().unwrap();
 
     let window = Window::new(WindowType::Toplevel);
+    window.set_title("Markdown Browser");
+    window.set_default_size(800, 600);
+
     let context = WebContext::get_default().unwrap();
+    #[cfg(feature="v2_4")]
     context.set_web_extensions_initialization_user_data(&"webkit".to_variant());
     context.set_web_extensions_directory("../webkit2gtk-webextension-rs/example/target/debug/");
+    #[cfg(feature="v2_6")]
     let webview = WebView::new_with_context_and_user_content_manager(&context, &UserContentManager::new());
-    webview.load_uri("https://crates.io/");
+    #[cfg(not(feature="v2_6"))]
+    let webview = WebView::new_with_context(&context);
+    webview.load_uri("https://baidu.com/");
     window.add(&webview);
 
-    let settings = WebViewExt::get_settings(&webview).unwrap();
+    let settings = WebView::get_settings(&webview).unwrap();
     settings.set_enable_developer_extras(true);
 
     /*let inspector = webview.get_inspector().unwrap();
     inspector.show();*/
 
     window.show_all();
-
+/*
     webview.run_javascript("alert('Hello');");
     webview.run_javascript_with_callback("42", |result| {
         match result {
@@ -42,7 +51,7 @@ fn main() {
             Err(error) => println!("{}", error),
         }
     });
-
+*/
     window.connect_delete_event(|_, _| {
         gtk::main_quit();
         Inhibit(false)
